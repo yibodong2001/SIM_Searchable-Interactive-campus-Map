@@ -1,0 +1,92 @@
+/*---------------------------------------------------------------------------------------------
+* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+* See LICENSE.md in the project root for license terms and full copyright notice.
+*--------------------------------------------------------------------------------------------*/
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.List ul {
+  padding: 0; /* 移除默认的内边距 */
+  margin: 0; /* 移除默认的外边距 */
+  list-style-type: none;
+}
+.List li {
+  background-color: rgb(238, 238, 238);
+  list-style-type: none;
+}
+
+.List li:hover,
+.List li:focus {
+  padding: 1rem;
+}
+
+.List li {
+  color: rgb(0, 84, 159);
+  text-decoration: none;
+}
+
+.List li:hover,
+.List li:focus,
+.List li:hover a,
+.List li:focus a {
+  background-color: rgb(238, 238, 238);
+  color: #333;
+}
+
+.List li:hover a,
+.List li:focus a {
+  cursor: progress;
+}
+
+.searchForm {
+  width: 80%;
+  padding: 1rem 0 0 0.75rem;
+}
+
+.searchForm input[type="text"] {
+  font-family: "Open Sans", sans-serif;
+  width: 100%;
+  min-height: 48px;
+  font-size: 1rem;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  outline: none;
+}
+
+.searchForm label {
+  position: absolute;
+  left: -99999px;
+}
+
+.button {
+  padding: 10px 15px; /* 调整内边距 */
+  font-size: 16px; /* 调整字体大小 */
+  border: none; /* 移除边框 */
+  border-radius: 4px; /* 添加圆角 */
+  cursor: pointer; /* 显示指针 */
+}
+.button {
+  background-color: #007bff; /* 背景颜色 */
+  color: #fff; /* 文本颜色 */
+}
+
+/* 悬停效果 */
+.button:hover {
+  background-color: #0056b3; /* 悬停时的背景颜色 */
+}
+
+/* 按下效果 */
+.button:active {
+  background-color: #004080; /* 按下时的背景颜色 */
+}
