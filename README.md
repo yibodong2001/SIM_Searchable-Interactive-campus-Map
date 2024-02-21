@@ -38,7 +38,7 @@ IMJS_IMODEL_ID = ""
 
 - For the IMJS_IMODEL_ID variable, use the id of an iModel that belongs to the iTwin that you specified in the IMJS_ITWIN_ID variable. You can obtain iModel ids via the [iModel REST APIs](https://developer.bentley.com/apis/imodels-v2/operations/get-imodel-details/).
 
-- Alternatively, you can [generate a test iModel](https://developer.bentley.com/tutorials/web-application-quick-start/#4-create-an-imodel) to get started without an existing iModel.
+- Alternatively, you can [generate a test iModel](https://developer.bentley.com/tutorials/web-application-quick-start/#4-create-an-imodel) to get started without an existing iModel. In this case, we upload the IFC file of the building model as an iModel.
 
 - If at any time you wish to change the iModel that you are viewing, you can change the values of the iTwinId or iModelId query parameters in the url (i.e. localhost:3000?iTwinId=myNewITwinId&iModelId=myNewIModelId)
 
@@ -54,41 +54,26 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
+# Replace data file
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Get the course organization data
 
-### `npm run build`
+This application is developed based on the situation at RWTH Aachen University. In case you want to upload your data. You can export the course organization data from "carpe diem!". You can find the detailed [report](SIM_project_report.pdf) here. And then replace [this](src/data/terminList_export.json) with the new data.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Get the coordinates of all the buildings
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+With the exported data from "carpe diem!", you can use the code described in the [report](SIM_project_report.pdf) to get all the coordinates of all buildings by using Nominatim's APIs. And then replace [this](src/data/buildingCoordinates.tsx) with the new data.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Update iModel Id
 
-### `npm run eject`
+After uploading a model in iTwin, you will get an iModelId, please add this iModelId to [this](src/data/BuildingsIModelId.json) along with the address of this building.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Update room id 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Each space(room) has a unique identifier which I call a room ID. You can obtain the ID through the iTwin platform -> My iTwin -> iModel -> iModel console. You can query the IDs using the command below.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Please add these room IDs to [this](src/data/RoomsModelId.json) along with the room names.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Notes
 
-If you are not using NPM, remove the `USING_NPM` env var from [.env](./.env)
 
-## Next Steps
-
-- [iTwin Viewer options](https://www.npmjs.com/package/@itwin/web-viewer-react)
-
-- [Extending the iTwin Viewer](https://developer.bentley.com/tutorials/itwin-viewer-hello-world/)
-
-- [Using the iTwin Platform](https://developer.bentley.com/)
-
-- [iTwin Developer Program](https://www.youtube.com/playlist?list=PL6YCKeNfXXd_dXq4u9vtSFfsP3OTVcL8N)
