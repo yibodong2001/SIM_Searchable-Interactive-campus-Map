@@ -1,21 +1,25 @@
-type search = {
-  search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-};
+import { searchType } from "./types";
 
-const SearchBox = ({ search, setSearch }: search) => {
+const SearchBox = ({ search, setSearch, placeHolder }: searchType) => {
   return (
     <nav className="Search">
-      <form className="searchForm" onSubmit={(e) => e.preventDefault()}>
+      <div className="searchForm" onSubmit={(e) => e.preventDefault()}>
         <label htmlFor="search"></label>
         <input
           id="search"
           type="text"
-          placeholder="Search"
+          placeholder={placeHolder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         ></input>
-      </form>
+        <button
+          id="clearButton"
+          aria-label="clear"
+          onClick={() => setSearch("")}
+        >
+          x
+        </button>
+      </div>
     </nav>
   );
 };

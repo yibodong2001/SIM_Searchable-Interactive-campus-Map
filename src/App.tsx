@@ -4,13 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 
 import "./App.scss";
-import { RoomsProvider } from "./Rooms";
-import { currentIModelId, BuildingsProvider } from "./Building";
-import {
-  IModelConnection,
-  ScreenViewport,
-  Viewport,
-} from "@itwin/core-frontend";
+import { currentIModelId, LecturesProvider } from "./Lectures";
+import { ScreenViewport } from "@itwin/core-frontend";
 import { FitViewTool, IModelApp, StandardViewId } from "@itwin/core-frontend";
 import { FillCentered } from "@itwin/core-react";
 import { ProgressLinear } from "@itwin/itwinui-react";
@@ -33,10 +28,11 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Auth } from "./Auth";
 import { history } from "./history";
 import { subscribeToClickEvent, unsubscribeFromClickEvent } from "./events";
-import { imageElementFromUrl } from "@itwin/core-frontend";
-import { BuildingDecorator } from "./Decorator";
-import BuildingsCoordinates from "./data/BuildingsCoordinates.json";
 import { BaseMapLayerSettings } from "@itwin/core-common";
+import { CoursesInfoProvider } from "./ClassInfo";
+import { CoursesProvider } from "./CoursesProvider";
+import { RoomsProvider } from "./VacantRooms";
+import { LearningRoomsProvider } from "./LearningRoom";
 
 const App: React.FC = () => {
   const [iModelId, setIModelId] = useState(process.env.IMJS_IMODEL_ID);
@@ -72,10 +68,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const changeIModel = () => {
-      // setIfBlank(true);
-      setIModelId(currentIModelId);
+      setIModelId(currentIModelId); // Update iModelId based on current selection
     };
-    // console.log(ifBlank);
     subscribeToClickEvent(changeIModel);
     return () => {
       unsubscribeFromClickEvent(changeIModel);
@@ -124,6 +118,7 @@ const App: React.FC = () => {
         }, 100);
       });
     };
+
     const settings = BaseMapLayerSettings.fromJSON({
       formatId: "TileURL",
       url: "https://b.tile.openstreetmap.org/{level}/{column}/{row}.png",
@@ -148,26 +143,8 @@ const App: React.FC = () => {
     await TreeWidget.initialize();
     await PropertyGridManager.initialize();
     await MeasureTools.startup();
-
     MeasurementActionToolbar.setDefaultActionProvider();
   }, []);
-
-  const markerImagePromise = imageElementFromUrl(
-    "https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg"
-  );
-
-  const onIModelConnected = async (iModel: IModelConnection) => {
-    const buildingdecorator = new BuildingDecorator(
-      BuildingsCoordinates,
-      iModel.ecefLocation!.cartographicOrigin!.latitudeDegrees,
-      iModel.ecefLocation!.cartographicOrigin!.longitudeDegrees,
-      await markerImagePromise
-    );
-    console.log(iModel.ecefLocation!.cartographicOrigin!.latitudeDegrees);
-    console.log(iModel.ecefLocation!.cartographicOrigin!.longitudeDegrees);
-    IModelApp.viewManager.decorators.pop();
-    IModelApp.viewManager.addDecorator(buildingdecorator);
-  };
 
   return (
     <div className="viewer-container">
@@ -187,10 +164,12 @@ const App: React.FC = () => {
         viewCreatorOptions={viewCreatorOptions}
         enablePerformanceMonitors={true} // see description in the README (https://www.npmjs.com/package/@itwin/web-viewer-react)
         onIModelAppInit={onIModelAppInit}
-        onIModelConnected={onIModelConnected}
         uiProviders={[
+          new LearningRoomsProvider(),
+          new LecturesProvider(),
+          new CoursesInfoProvider(),
+          new CoursesProvider(),
           new RoomsProvider(),
-          new BuildingsProvider(),
           new ViewerNavigationToolsProvider(),
           new ViewerContentToolsProvider({
             vertical: {
@@ -198,7 +177,6 @@ const App: React.FC = () => {
             },
           }),
           new ViewerStatusbarItemsProvider(),
-
           new MeasureToolsUiItemsProvider(),
         ]}
       ></Viewer>

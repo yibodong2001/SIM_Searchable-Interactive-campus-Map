@@ -8,48 +8,66 @@ import {
   ClipPlane,
 } from "@itwin/core-geometry";
 import { IModelApp, IModelConnection } from "@itwin/core-frontend";
-
 import { useActiveIModelConnection } from "@itwin/appui-react";
 import { useState } from "react";
+import { setSelectSetType } from "./types";
 
-type setSelectSet = {
-  selectSet: string;
-};
-const LevelCliper = ({ selectSet }: setSelectSet) => {
+// LevelCliper component
+const LevelCliper = ({ selectSet }: setSelectSetType) => {
+  // Accessing the active iModel connection
   const iModelConnection = useActiveIModelConnection() as IModelConnection;
+
+  // State to track the toggle status
   const [toggled, setToggled] = useState<boolean>(true);
-  const roomLevelHight = async (selectSet: string) => {
+
+  // Function to adjust the room level height and update the view state
+  const roomLevelHeight = async (selectSet: string) => {
     try {
+      // Accessing the selected view
       const vp = IModelApp.viewManager.selectedView!;
       const viewState = vp.view;
-      // const levelName = await getLevelName(selectSet);
-      // const levelHeight = await getLevelHight(levelName);
-      // const roomHeight = await getRoomHeight(selectSet);
+
+      // Getting the room origin's Z coordinate
       const roomOrigin = await getRoomOrigin(selectSet);
       const roomHeight = roomOrigin.Z;
-      console.log(roomHeight);
+
+      // Toggling the visibility based on the current state
       setToggled(!toggled);
+
+      // Creating a convex clip plane set
       const planeSet = ConvexClipPlaneSet.createEmpty();
+
+      // Creating a bottom plane (clipping the interior below the room)
       createPlane(planeSet, -1000, false);
+
+      // Creating a top plane (clipping the interior above the room) based on the toggle state
       toggled
-        ? // ? createPlane(planeSet, levelHeight + roomHeight - 0.5, true)
-          createPlane(planeSet, roomHeight + 2.5, true)
+        ? createPlane(planeSet, roomHeight + 2.5, true)
         : createPlane(planeSet, 10000, true);
 
+      // Creating a clip primitive
       const prim = ClipPrimitive.createCapture(planeSet);
+
+      // Creating a clip vector and appending the primitive
       const clip = ClipVector.createEmpty();
       clip.appendReference(prim);
+
+      // Applying the clip vector to the view state
       viewState.setViewClip(clip);
       viewState.viewFlags = viewState.viewFlags.with("clipVolume", true);
+
+      // Applying the updated view state to the viewport
       vp.applyViewState(viewState);
+
+      // Invalidating decorations and triggering a render
       vp.invalidateDecorations();
       requestAnimationFrame(() => {});
     } catch (error) {
       console.log(error);
-      return 0;
     }
   };
 
+  // Function to get the room origin from the iModel
   const getRoomOrigin = async (selectSet: string) => {
     for await (const row of iModelConnection.createQueryReader(
       `select Origin from IFCDynamic.ifcspace where ECInstanceId = ${selectSet}`
@@ -59,31 +77,7 @@ const LevelCliper = ({ selectSet }: setSelectSet) => {
     return "";
   };
 
-  // const getRoomHeight = async (selectSet: string) => {
-  //   for await (const row of iModelConnection.createQueryReader(
-  //     `select ROOM_HEIGHT from RevitDynamic.RoomElem where ECInstanceId = ${selectSet}`
-  //   )) {
-  //     return row[0];
-  //   }
-  //   return "";
-  // };
-  // const getLevelName = async (selectSet: string) => {
-  //   //The for loop will now need to be in an async function itself to allow for the await operator
-  //   for await (const row of iModelConnection.createQueryReader(
-  //     `select ROOM_LEVEL_ID from RevitDynamic.RoomElem where ECInstanceId = ${selectSet}`
-  //   )) {
-  //     return row[0];
-  //   }
-  //   return "";
-  // };
-  // const getLevelHight = async (levelName: string) => {
-  //   for await (const row of iModelConnection.createQueryReader(
-  //     `select LEVEL_ELEV from RevitDynamic.level where CodeValue ='${levelName}'`
-  //   )) {
-  //     return row[0];
-  //   }
-  //   return 0;
-  // };
+  // Function to create a clip plane and add it to the plane set
   const createPlane = (
     planeSet: ConvexClipPlaneSet,
     z: number,
@@ -103,11 +97,16 @@ const LevelCliper = ({ selectSet }: setSelectSet) => {
 
     planeSet.addPlaneToConvexSet(ClipPlane.createPlane(plane));
   };
+
+  // Text for the button based on the toggle state
   const buttonText = toggled ? "Show Interior" : "Hide Interior";
+
+  // Click event handler for the button
   const handleClick = () => {
-    roomLevelHight(selectSet);
+    roomLevelHeight(selectSet);
   };
 
+  // Rendering the component
   return (
     <>
       <button className="button" onClick={() => handleClick()}>

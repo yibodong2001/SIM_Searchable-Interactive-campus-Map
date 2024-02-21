@@ -1,8 +1,8 @@
 {
-  "abcdefg": "0x20000000025",
-  "b": "0x2000000005f",
-  "c": "0x20000000025",
-  "d": "0x2000000005f",
-  "e": "0x20000000025",
+  "1010 Hauptgebäude, Templergraben 55|149 (1010|149)": "0x20000000020",
+  "1010 Hauptgebäude, Templergraben 55|131 (1010|131)": "0x20000000048",
+  "1420 Großes Hörsaalgebäude, Audimax, Wüllnerstr. 9|302 (1420|302)": "0x200000002e0",
+  "1420 Großes Hörsaalgebäude, Audimax, Wüllnerstr. 9|304 (1420|304)": "0x20000000381",
+  "1420 Großes Hörsaalgebäude, Audimax, Wüllnerstr. 9|001 (1420|001)": "0x20000000566",
   "f": "0x2000000005f"
 }

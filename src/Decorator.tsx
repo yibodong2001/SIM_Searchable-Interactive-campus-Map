@@ -2,25 +2,24 @@ import { DecorateContext, Decorator } from "@itwin/core-frontend";
 import { BuildingMarker } from "./Marker";
 import { Point3d } from "@itwin/core-geometry";
 import { convertToCoordinateSystem, Coordinates } from "./XYcalculator";
+import { emitClickEvent3 } from "./events";
+import { CoordinateType } from "./types";
 
-import BuildingsName from "./data/BuildingsName.json";
+// Variable to store the clicked building address
+export let clickedMarkerBuildingAddress = "";
 
-import { emitClickEvent } from "./events";
-
-export let clickedMarkerBuildingId = "";
-export const clickMarker = async (buildingId: string) => {
-  clickedMarkerBuildingId = buildingId;
+//when click the marker passing the clicked building address to the modul Rooms
+export const clickMarker = async (buildingAddress: string) => {
+  clickedMarkerBuildingAddress = buildingAddress;
   await new Promise<void>((resolve) => {
     resolve();
   });
-  emitClickEvent();
+  emitClickEvent3();
 };
 
 export interface JsonType {
   [key: string]: string;
 }
-
-const building_name: JsonType = BuildingsName;
 
 export class BuildingDecorator implements Decorator {
   private _marker: BuildingMarker[] = [];
@@ -31,18 +30,20 @@ export class BuildingDecorator implements Decorator {
     }
   };
 
+  // Method to create a marker for each building based on coordinates
   private _createMarker = (
     pointLatitude: number,
     pointLongtitude: number,
     originLatitude: number,
     originLongtitude: number,
-    building_id: string,
+    building_address: string,
     image: HTMLImageElement
   ) => {
+    // Callback function for mouse button click on the marker
     const _onMouseButtonCallback = () => {
-      clickMarker(building_id);
-      console.log(building_id);
+      clickMarker(building_address);
     };
+
     const origin: Coordinates = {
       latitude: originLatitude,
       longitude: originLongtitude,
@@ -56,34 +57,31 @@ export class BuildingDecorator implements Decorator {
     this._marker.push(
       new BuildingMarker(
         image,
-        building_name[building_id], //marker title
         _onMouseButtonCallback,
 
         Point3d.create(
           convertToCoordinateSystem(origin, points).x,
           convertToCoordinateSystem(origin, points).y,
           0
-        ),
-
-        building_name[building_id]
+        )
       )
     );
   };
 
   constructor(
-    coordinates: JsonType,
+    coordinates: CoordinateType,
     originLatitude: number,
     originLongtitude: number,
     image: HTMLImageElement
   ) {
     Object.entries(coordinates).forEach(([key, value]) => {
       this._createMarker(
-        parseFloat(value.split(",")[0]),
-        parseFloat(value.split(",")[1]),
+        value[1],
+        value[0],
         originLatitude,
         originLongtitude,
-        key,
-        image
+        key, //building address
+        image //image of the marker
       );
     });
   }

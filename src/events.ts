@@ -1,20 +1,66 @@
-// events.ts
 import mitt from "mitt";
 
-// 创建事件总线
 const eventBus = mitt();
 
 export const emitClickEvent = () => {
-  // 发送自定义事件
-  eventBus.emit("clickEvent");
+  eventBus.emit("clickEvent1");
 };
 
 export const subscribeToClickEvent = (callback: () => void) => {
-  // 订阅自定义事件
-  eventBus.on("clickEvent", callback);
+  eventBus.on("clickEvent1", callback);
 };
 
 export const unsubscribeFromClickEvent = (callback: () => void) => {
-  // 取消订阅自定义事件
-  eventBus.off("clickEvent", callback);
+  eventBus.off("clickEvent1", callback);
+};
+
+export const emitClickEvent2 = () => {
+  eventBus.emit("clickEvent2");
+};
+
+export const subscribeToClickEvent2 = (callback: () => void) => {
+  eventBus.on("clickEvent2", callback);
+};
+
+export const unsubscribeFromClickEvent2 = (callback: () => void) => {
+  eventBus.off("clickEvent2", callback);
+};
+
+export const emitClickEvent3 = () => {
+  eventBus.emit("clickEvent3");
+};
+
+export const subscribeToClickEvent3 = (callback: () => void) => {
+  eventBus.on("clickEvent3", callback);
+};
+
+export const unsubscribeFromClickEvent3 = (callback: () => void) => {
+  eventBus.off("clickEvent3", callback);
+};
+
+export const emitClickEvent4 = () => {
+  eventBus.emit("clickEvent4");
+};
+
+export const subscribeToClickEvent4 = (callback: () => void) => {
+  eventBus.on("clickEvent4", callback);
+};
+
+export const unsubscribeFromClickEvent4 = (callback: () => void) => {
+  eventBus.off("clickEvent4", callback);
+};
+export const emitClickEvent5 = () => {
+  eventBus.emit("clickEvent4");
+};
+
+export const subscribeToClickEvent5 = (callback: () => void) => {
+  eventBus.on("clickEvent4", callback);
+};
+
+export const unsubscribeFromClickEvent5 = (callback: () => void) => {
+  eventBus.off("clickEvent4", callback);
+};
+
+export const emitClickEvent6 = () => {
+  eventBus.emit("clickEvent4");
 };

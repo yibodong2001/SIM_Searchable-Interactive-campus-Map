@@ -16,77 +16,147 @@ code {
     monospace;
 }
 
-.List ul {
-  padding: 0; /* 移除默认的内边距 */
-  margin: 0; /* 移除默认的外边距 */
-  list-style-type: none;
-}
-.List li {
-  background-color: rgb(238, 238, 238);
-  list-style-type: none;
-}
-
-.List li:hover,
-.List li:focus {
-  padding: 1rem;
+.List {
+  list-style: none;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  display: flex; /* 使用 Flexbox 布局 */
+  flex-direction: column; /* 文字和按钮垂直排列 */
+  align-items: center; /* 垂直居中 */
 }
 
-.List li {
-  color: rgb(0, 84, 159);
-  text-decoration: none;
+.buttonContainer {
+  display: flex;
+  justify-content: space-between; /* 使按钮之间的间隔相等 */
+  width: 300px; /* 根据需要调整容器的宽度 */
 }
 
-.List li:hover,
-.List li:focus,
-.List li:hover a,
-.List li:focus a {
-  background-color: rgb(238, 238, 238);
-  color: #333;
+.buttonContainer button {
+  flex: 1; /* 让按钮平均占据容器的可用空间 */
 }
 
-.List li:hover a,
-.List li:focus a {
-  cursor: progress;
+.pagination {
+  display: flex;
+  justify-content: space-between;
 }
 
 .searchForm {
+  display: flex;
+  align-items: center;
   width: 80%;
   padding: 1rem 0 0 0.75rem;
 }
 
 .searchForm input[type="text"] {
+  flex: 1;
   font-family: "Open Sans", sans-serif;
-  width: 100%;
   min-height: 48px;
   font-size: 1rem;
   padding: 0.25rem;
   border-radius: 0.25rem;
   outline: none;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease-in-out;
 }
 
-.searchForm label {
-  position: absolute;
-  left: -99999px;
+.searchForm button {
+  padding: 0.25rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #555;
+  transition: color 0.3s ease-in-out;
+  margin-left: 5px;
+  border-radius: 50%; /* 将按钮的边框半径设置为50%创建圆形 */
+  background-color: #fff; /* 添加一个圆圈的背景颜色 */
+  border: 1px solid #ccc; /* 圆圈的边框 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; /* 设置按钮的宽度 */
+  height: 20px; /* 设置按钮的高度 */
+}
+
+.searchForm button:hover {
+  color: red;
+}
+
+.searchForm input[type="text"]:focus {
+  border-color: #6c63ff;
+}
+
+.searchForm input[type="text"]:not(:placeholder-shown) + button {
+  display: flex;
 }
 
 .button {
-  padding: 10px 15px; /* 调整内边距 */
-  font-size: 16px; /* 调整字体大小 */
+  padding: 0.5rem 1rem; /* 调整内边距 */
+  font-size: 1rem; /* 调整字体大小 */
   border: none; /* 移除边框 */
-  border-radius: 4px; /* 添加圆角 */
+  border-radius: 0.25rem; /* 添加轻微的圆角 */
   cursor: pointer; /* 显示指针 */
-}
-.button {
-  background-color: #007bff; /* 背景颜色 */
+  background-color: #6c63ff; /* 背景颜色 */
   color: #fff; /* 文本颜色 */
+  transition: background-color 0.3s ease-in-out; /* 添加过渡效果 */
 }
 
-/* 悬停效果 */
+/* 悬停和按下效果 */
 .button:hover {
-  background-color: #0056b3; /* 悬停时的背景颜色 */
+  background-color: #5a4fff; /* 悬停时的背景颜色 */
 }
 
-/* 按下效果 */
 .button:active {
-  background-color: #004080; /* 按下时的背景颜色 */
+  background-color: #4c45cc; /* 按下时的背景颜色 */
+}
+
+.custom-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.custom-table tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.custom-table td {
+  padding: 8px;
+}
+
+.table-key {
+  font-weight: bold;
+  color: #333;
+}
+
+.table-value {
+  color: #666;
+}
+
+.selector-container {
+  display: flex;
+  flex-direction: column; /* 主轴方向为垂直方向 */
+  align-items: center; /* 在交叉轴上居中对齐 */
+}
+
+.selector {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #3498db;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+
+  &:hover {
+    border-color: #2980b9;
+  }
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 16px;
 }
