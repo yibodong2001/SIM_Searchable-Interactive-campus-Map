@@ -62,7 +62,7 @@ This application is developed based on the situation at RWTH Aachen University. 
 
 ## Get the coordinates of all the buildings
 
-With the exported data from "carpe diem!", you can use the code described in the [report](SIM_project_report.pdf) to get all the coordinates of all buildings by using Nominatim's APIs. And then replace [this](src/data/buildingCoordinates.tsx) with the new data.
+With the exported data from ["carpe diem!"](https://carpediem.online.rwth-aachen.de/moses/index.html), you can use the code described in the [report](SIM_project_report.pdf) to get all the coordinates of all buildings by using Nominatim's APIs. And then replace [this](src/data/buildingCoordinates.tsx) with the new data.
 
 ## Update iModel Id
 
