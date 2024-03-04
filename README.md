@@ -1,3 +1,7 @@
+# Document_report_Prototyping_Project
+
+See [here](SIM_project_report.pdf) to the document of SIM.
+
 # Getting Started with the iTwin Viewer Create React App Template
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
